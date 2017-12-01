@@ -1,0 +1,9 @@
+count = 0
+for dob in my_dict.keys():
+    if int(dob.split('/')[-1]) < 2000:
+        count = count + 1
+¬
+if count > 1:
+    print('mixed')
+else:
+    print('clean')
