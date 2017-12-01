@@ -1,0 +1,68 @@
+import xml.etree.ElementTree as et
+from pprint import pprint
+from elasticsearch import Elasticsearch
+import datefinder
+
+es = Elasticsearch()
+file_name=open("C:\\Users\\Mohamedabrar.A.WGS\\Desktop\\XML FIles\\BCBSNE ACA 2017_75909321.xml")
+data = file_name.read()
+front={"a":0,"b":1,"c":2,"d":3,"e":4,"f":5,"g":6,"h":7,"i":8,"j":9}
+reverse={"0":"a","1":"b","2":"c","3":"d","4":"e","5":"f","6":"g","7":"h","8":"i","9":"j"}
+# print(data)
+document = et.fromstring(data.encode('utf-8'))
+all_pages = document.findall("Page")
+# pprint(all_pages)
+total_document = {}
+for pg in all_pages:
+    page_number = pg.find("PageNumber")
+    # pprint(page_number.text)
+    zone = pg.find("Zone")
+    # pprint(zone)
+    zone_number = zone.find("ZoneNumber")
+    # pprint(zone_number)
+    lines = zone.findall("Line")
+    # pprint(lines)
+#     list = []
+    for number in lines:
+        num_text = number.find("LineNumber")
+        # pprint(num_text.text)
+        ocr_text = number.find("OCRCharacters")
+        # pprint(ocr_text.text)
+        # pprint(page_number.text)
+        page_num=[c for c in page_number.text]
+        # print(page_num)
+        # print(page_num[1])
+
+
+        if len(page_num) == 1:
+            encode = "XXX" + str(reverse[page_num[0]])
+            # print(encode)
+        elif len(page_num) == 2:
+            encode = "XX" + str(reverse[page_num[0]]) + str(reverse[page_num[1]])
+            # print(encode)
+
+
+        #ZONE ENCODE
+        zone_num = [c for c in zone_number.text]
+        # print(zone_num)
+
+        # print(len(temp))
+        if len(zone_num) == 1:
+            zone_encode = str(reverse[zone_num[0]])
+            # print(zone_encode)
+
+        # LINE ENCODE
+        line_num = [c for c in num_text.text]
+        # print(line_num)
+
+        if len(line_num) == 1:
+            line_encode = "XX" + str(reverse[line_num[0]])
+            print(line_encode)
+        elif len(line_num) == 2:
+            line_encode = "X" + str(reverse[line_num[0]]) + str(reverse[line_num[1]])
+            print(line_encode)
+            
+        # CLUBING ALL TOGETHER
+        
+        dictionary = ocr_text.text +  || +  page=page_num + zone = zone_num + line = line_num
+

@@ -1,0 +1,45 @@
+from pprint import pprint
+def date_op(total_input_list):
+    total_pages=36
+    list=[]
+    len_total_dict=len(total_input_list[0])
+    # print(len_total_dict,"lllllllllllllll",total_input_list[0])
+    val_no=0
+
+    for each_dicrt in total_input_list[0]:
+
+        # print(total_input_list[0][each_dicrt])
+        Start_page = total_input_list[0][each_dicrt]["start_page"]
+        # End_page = total_input_list[0][each_dicrt]["start_page"] - 1
+        Current_Date = total_input_list[0][each_dicrt]["date"]
+        try:
+            Next_Date = total_input_list[0][each_dicrt+1]["date"]
+        except:
+            Next_Date="END"
+        print(Start_page,Current_Date,Next_Date)
+        if int(len_total_dict)==int(each_dicrt) or Next_Date=="END":
+            # total_input_list[0][each_dicrt]['end_page']=total_pages
+            d1 = [{each_dicrt: {"start_page": Start_page, "end_page": total_pages, "date": Current_Date}}]
+        else:
+            if str(Current_Date) == str(Next_Date):
+                print("insideeeeeeeeeeeeeeeeeee",total_input_list[0][each_dicrt+1])
+                End_page = total_input_list[0][each_dicrt+1]["start_page"] - 1
+                # del(total_input_list[0][each_dicrt+1])
+                d1 = [{each_dicrt: {"start_page": Start_page, "end_page": End_page, "date": Current_Date}}]
+                # del(each[i+1])
+            else:
+                print("in elseeeeeeeeeee")
+                End_page=total_input_list[0][each_dicrt+1]["start_page"]-1
+                print(End_page,"eeeeeeeeeee",each_dicrt)
+                d1 = [{each_dicrt: {"start_page": Start_page, "end_page": End_page, "date": Current_Date}}]
+        print(d1, "lisssssss")
+    print(d1)
+
+total_input_list=[{1:{"start_page":1,"end_page":None,"date":"10/12/2015"},
+                  2:{"start_page":4,"end_page":None,"date":"12/12/2015"},
+                  3:{"start_page":8,"end_page":None,"date":"22/01/2016"},
+                  4:{"start_page":15,"end_page":None,"date":"22/01/2016"},
+                  5:{"start_page":22,"end_page":None,"date":"22/01/2016"},
+                  6:{"start_page":24,"end_page":None,"date":"20/12/2016"},
+                  7:{"start_page":28,"end_page":None,"date":"26/02/2017"}}]
+date_op(total_input_list)
